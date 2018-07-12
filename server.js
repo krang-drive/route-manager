@@ -6,10 +6,6 @@ const Client = require('node-rest-client').Client;
 
 var client = new Client();
 
-var facilityRequest = function() { return undefined; };
-var routeCalculatorRequest = function() { return undefined; };
-var driverStoreRequet = function() { return undefined };
-var driverSchedulerRequest = function() { return undefined };
 
 app.get('/', (req, res) => {
   res.send("Connection Succesful!");
@@ -33,7 +29,7 @@ app.post('/', (req, res) => {
         data: { data: deliveryRouteObject },
         headers: { "Content-Type": "application/json" }
       };
-      driverStoreRequet = client.post('driverStore/api', args, (data,response) => {
+      driverStoreRequest = client.post('driverStore/api', args, (data,response) => {
         var args = {
           data: facilityId,
           headers: { "Content-Type": "text/plain" }
@@ -41,23 +37,22 @@ app.post('/', (req, res) => {
         driverSchedulerRequest = client.post('driveScheduler/api', args, (data, response) => {
           console.log("Done!")
         });
+        driverSchedulerRequest.on('error', (err) => {
+          console.log("Error sending post request to the Driver Scheduler");
+        });
+
+      });
+      driverStoreRequest.on('error', (err) => {
+        console.log("Error sending post request to the Driver Store");
       });
     });
+    routeCalculator.on('error', (err) => {
+      console.log("Error sending post request to the Route Calculator");
+    });
+
   });
-});
+  facilityRequest.on('error', (err) => {
+    console.log("Error receiving get request from Facility Database");
+  });
 
-facilityRequest.on('error', (err) => {
-  console.log("Error receiving get request from Facility Database");
-});
-
-routeCalculator.on('error', (err) => {
-  console.log("Error sending post request to the Route Calculator");
-});
-
-driverStoreRequet.on('error', (err) => {
-  console.log("Error sending post request to the Driver Store");
-});
-
-driverSchedulerRequest.on('error', (err) => {
-  console.log("Error sending post request to the Driver Scheduler");
 });
