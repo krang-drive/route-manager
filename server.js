@@ -56,3 +56,4 @@ app.post('/', (req, res) => {
   });
 
 });
+app.listen(8080, () => console.log("App started on port 8080"));
