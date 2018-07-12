@@ -1,6 +1,6 @@
 {
   "name": "route-manager",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -10,10 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/krang-drive/route-manager.git"
   },
-  "author": "",
+  "author": "Ali",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/krang-drive/route-manager/issues"
   },
-  "homepage": "https://github.com/krang-drive/route-manager#readme"
+  "homepage": "https://github.com/krang-drive/route-manager#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "node-rest-client": "^3.1.0"
+  }
 }
