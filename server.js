@@ -6,6 +6,11 @@ const Client = require('node-rest-client').Client;
 
 var client = new Client();
 
+var facilityRequest = {};
+var routeCalculatorRequest = {};
+var driverStoreRequet = {};
+var driverSchedulerRequest = {};
+
 app.get('/', (req, res) => {
   res.send("Connection Succesful!");
 });
@@ -13,7 +18,7 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   var facilityId = req.body;
 
-  var facilityRequest = client.get('facility-db/api/facilityId', (data, response) => {
+  facilityRequest = client.get('facility-db/api/facilityId', (data, response) => {
     var allPackages = data; // All Packages by FacilityID
     var args = {
       data: {
@@ -22,18 +27,18 @@ app.post('/', (req, res) => {
       },
       headers: { "Content-Type": "application/json" }
     };
-    var routeCalculatorRequest = client.post('routeCalculator/api', args, (data, response) => {
+    routeCalculatorRequest = client.post('routeCalculator/api', args, (data, response) => {
       var deliveryRouteObject = data;
       var args = {
         data: { data: deliveryRouteObject },
         headers: { "Content-Type": "application/json" }
       };
-      var driverStoreRequet = client.post('driverStore/api', args, (data,response) => {
+      driverStoreRequet = client.post('driverStore/api', args, (data,response) => {
         var args = {
           data: facilityId,
           headers: { "Content-Type": "text/plain" }
         }
-        var driverSchedulerRequest = client.post('driveScheduler/api', args, (data, response) => {
+        driverSchedulerRequest = client.post('driveScheduler/api', args, (data, response) => {
           console.log("Done!")
         });
       });
