@@ -268,14 +268,14 @@
         {
             "name": "LIVENESS_DELAY",
             "displayName": "Liveness Delay",
-            "value": "300",
+            "value": "30",
             "description": "Intial amount of time in seconds to wait to perform a liveness check.",
             "required": true
         },
         {
             "name": "READINESS_DELAY",
             "displayName": "Readiness Delay",
-            "value": "300",
+            "value": "30",
             "description": "Intial amount of time in seconds to wait to perform a readiness check.",
             "required": true
         },
