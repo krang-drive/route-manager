@@ -6,10 +6,10 @@ const Client = require('node-rest-client').Client;
 
 var client = new Client();
 
-var facilityRequest = {};
-var routeCalculatorRequest = {};
-var driverStoreRequet = {};
-var driverSchedulerRequest = {};
+var facilityRequest = function() { return undefined; };
+var routeCalculatorRequest = function() { return undefined; };
+var driverStoreRequet = function() { return undefined };
+var driverSchedulerRequest = function() { return undefined };
 
 app.get('/', (req, res) => {
   res.send("Connection Succesful!");
