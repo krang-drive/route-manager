@@ -9,16 +9,19 @@ var client = new Client();
 app.post('/', (req,res) => {
   var facilityId = req.body;
 
-  client.get('packageStore-db/api', (data, response) => {
-    var allPackages = data;
+  client.get('facility-db/api/facilityId', (data, response) => {
+    var allPackages = data; // All Packages by FacilityID
     var args = {
-      data: allPackages,
+      data: {
+        data: allPackages,
+        facilityId: facilityId
+      },
       headers: { "Content-Type": "application/json" }
     };
     client.post('routeCalculator/api', args, (data, response) => {
       var deliveryRouteObject = data;
       var args = {
-        data: allPackages,
+        data: deliveryRouteObject,
         headers: { "Content-Type": "application/json" }
       };
       client.post('driverStore/api', args, (data,response) => {
