@@ -6,10 +6,14 @@ const Client = require('node-rest-client').Client;
 
 var client = new Client();
 
-app.post('/', (req,res) => {
+app.get('/', (req, res) => {
+  res.send("Connection Succesful!");
+});
+
+app.post('/', (req, res) => {
   var facilityId = req.body;
 
-  client.get('facility-db/api/facilityId', (data, response) => {
+  var facilityRequest = client.get('facility-db/api/facilityId', (data, response) => {
     var allPackages = data; // All Packages by FacilityID
     var args = {
       data: {
@@ -18,21 +22,37 @@ app.post('/', (req,res) => {
       },
       headers: { "Content-Type": "application/json" }
     };
-    client.post('routeCalculator/api', args, (data, response) => {
+    var routeCalculatorRequest = client.post('routeCalculator/api', args, (data, response) => {
       var deliveryRouteObject = data;
       var args = {
-        data: deliveryRouteObject,
+        data: { data: deliveryRouteObject },
         headers: { "Content-Type": "application/json" }
       };
-      client.post('driverStore/api', args, (data,response) => {
+      var driverStoreRequet = client.post('driverStore/api', args, (data,response) => {
         var args = {
           data: facilityId,
           headers: { "Content-Type": "text/plain" }
         }
-        client.post('driveScheduler/api', args, (data, response) => {
+        var driverSchedulerRequest = client.post('driveScheduler/api', args, (data, response) => {
           console.log("Done!")
         });
       });
     });
   });
+});
+
+facilityRequest.on('error', (err) => {
+  console.log("Error receiving get request from Facility Database");
+});
+
+routeCalculator.on('error', (err) => {
+  console.log("Error sending post request to the Route Calculator");
+});
+
+driverStoreRequet.on('error', (err) => {
+  console.log("Error sending post request to the Driver Store");
+});
+
+driverSchedulerRequest.on('error', (err) => {
+  console.log("Error sending post request to the Driver Scheduler");
 });
