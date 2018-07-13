@@ -11,10 +11,10 @@ app.get('/', (req, res) => {
   res.send("Connection Succesful!");
 });
 
-app.post('/', (req, res) => {
+app.post('/facility', (req, res) => {
   var facilityId = req.body;
 
-  facilityRequest = client.get('facility-db/api/facilityId', (data, response) => {
+  facilityRequest = client.get('facility-db:8080/api/facilityId', (data, response) => {
     var allPackages = data; // All Packages by FacilityID
     var args = {
       data: {
@@ -23,18 +23,18 @@ app.post('/', (req, res) => {
       },
       headers: { "Content-Type": "application/json" }
     };
-    routeCalculatorRequest = client.post('routeCalculator/api', args, (data, response) => {
+    routeCalculatorRequest = client.post('routeCalculator:8080/api', args, (data, response) => {
       var deliveryRouteObject = data;
       var args = {
         data: { data: deliveryRouteObject },
         headers: { "Content-Type": "application/json" }
       };
-      driverStoreRequest = client.post('driverStore/api', args, (data,response) => {
+      driverStoreRequest = client.post('driverStore:8080/api', args, (data,response) => {
         var args = {
           data: facilityId,
           headers: { "Content-Type": "text/plain" }
         }
-        driverSchedulerRequest = client.post('driveScheduler/api', args, (data, response) => {
+        driverSchedulerRequest = client.post('driveScheduler:8080/api', args, (data, response) => {
           console.log("Done!")
         });
         driverSchedulerRequest.on('error', (err) => {
