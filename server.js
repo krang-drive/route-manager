@@ -14,24 +14,24 @@ app.get('/', (req, res) => {
 app.post('/facility', (req, res) => {
   var facilityId = req.body;
 
-  facilityRequest = client.get('http://facility-store:8080/facility/:facilityId', (data, response) => {
+  var facilityRequest = client.get('http://facility-store:8080/facility/:facilityId', (data, response) => {
     var allPackages = data; // All Packages by FacilityID
     var args = {
       data: allPackages,
       headers: { "Content-Type": "application/json" }
     };
-    routeCalculatorRequest = client.post('http://route-calculator:8080/api', args, (data, response) => {
+    var routeCalculatorRequest = client.post('http://route-calculator:8080/api', args, (data, response) => {
       var deliveryRouteObject = data;
       var args = {
         data: {allRoutes: deliveryRouteObject},
         headers: { "Content-Type": "application/json" }
       };
-      driverStoreRequest = client.post('http://route-store:8080/routeAll', args, (data,response) => {
+      var driverStoreRequest = client.post('http://route-store:8080/routeAll', args, (data,response) => {
         var args = {
           data: facilityId,
           headers: { "Content-Type": "text/plain" }
         }
-        driverSchedulerRequest = client.post('http://drive-scheduler:8080/api', args, (data, response) => {
+        var driverSchedulerRequest = client.post('http://drive-scheduler:8080/api', args, (data, response) => {
           console.log("Done!")
         });
         driverSchedulerRequest.on('error', (err) => {
