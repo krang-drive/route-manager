@@ -43,7 +43,7 @@ app.post('/facility', (req, res) => {
         console.log("Error sending post request to the Driver Store");
       });
     });
-    routeCalculator.on('error', (err) => {
+    routeCalculatorRequest.on('error', (err) => {
       console.log("Error sending post request to the Route Calculator");
     });
 
