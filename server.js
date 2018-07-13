@@ -20,13 +20,13 @@ app.post('/facility', (req, res) => {
       data: allPackages,
       headers: { "Content-Type": "application/json" }
     };
-    routeCalculatorRequest = client.post('http://routeCalculator:8080/api', args, (data, response) => {
+    routeCalculatorRequest = client.post('http://route-calculator:8080/api', args, (data, response) => {
       var deliveryRouteObject = data;
       var args = {
-        data: { data: deliveryRouteObject },
+        data: {allRoutes: deliveryRouteObject},
         headers: { "Content-Type": "application/json" }
       };
-      driverStoreRequest = client.post('http://driver-store:8080/drivers', args, (data,response) => {
+      driverStoreRequest = client.post('http://route-store:8080/routeAll', args, (data,response) => {
         var args = {
           data: facilityId,
           headers: { "Content-Type": "text/plain" }
