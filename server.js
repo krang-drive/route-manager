@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 app.post('/facility', (req, res) => {
   var facilityId = req.body;
 
-  facilityRequest = client.get('facility-db:8080/api/facilityId', (data, response) => {
+  facilityRequest = client.get('http://facility-db:8080/api/facilityId', (data, response) => {
     var allPackages = data; // All Packages by FacilityID
     var args = {
       data: {
@@ -23,18 +23,18 @@ app.post('/facility', (req, res) => {
       },
       headers: { "Content-Type": "application/json" }
     };
-    routeCalculatorRequest = client.post('routeCalculator:8080/api', args, (data, response) => {
+    routeCalculatorRequest = client.post('http://routeCalculator:8080/api', args, (data, response) => {
       var deliveryRouteObject = data;
       var args = {
         data: { data: deliveryRouteObject },
         headers: { "Content-Type": "application/json" }
       };
-      driverStoreRequest = client.post('driverStore:8080/api', args, (data,response) => {
+      driverStoreRequest = client.post('http://driverStore:8080/api', args, (data,response) => {
         var args = {
           data: facilityId,
           headers: { "Content-Type": "text/plain" }
         }
-        driverSchedulerRequest = client.post('driveScheduler:8080/api', args, (data, response) => {
+        driverSchedulerRequest = client.post('http://driveScheduler:8080/api', args, (data, response) => {
           console.log("Done!")
         });
         driverSchedulerRequest.on('error', (err) => {
@@ -54,6 +54,6 @@ app.post('/facility', (req, res) => {
   facilityRequest.on('error', (err) => {
     console.log("Error receiving get request from Facility Database");
   });
-
+  res.send("sent")
 });
 app.listen(8080, () => console.log("App started on port 8080"));
